@@ -1,7 +1,14 @@
+import { pool } from "../db/pool.js";
 import { recipes } from "../recipes.js";
 
-export const getRecipes = (req, res) => {
-    res.json(recipes);
+export const getRecipes = async (req, res) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM recipes')
+        res.json(rows)
+    } catch (error) {
+        console.error("Error fetching recipes:", error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 };
 
 export const getRecipe = (req, res) => {
