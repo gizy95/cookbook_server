@@ -24,7 +24,7 @@ export const getRecipe = async (req, res) => {
     Recipes.time,
     Recipes.course,
     Recipes.steps,
-    STRING_AGG(Ingredients.ingredient_text, ', ') AS all_ingredients
+    STRING_AGG(Ingredients.ingredient_text, ', ') AS ingredients
 FROM
     Recipes
 LEFT JOIN
