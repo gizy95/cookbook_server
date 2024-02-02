@@ -1,5 +1,4 @@
 import { pool } from "../db/pool.js";
-import { recipes } from "../recipes.js";
 
 export const getRecipes = async (req, res) => {
     try {
