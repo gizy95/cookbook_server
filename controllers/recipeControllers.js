@@ -41,3 +41,41 @@ GROUP BY
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export const postRecipe = async (req, res) => {
+  try {
+    const {
+      title,
+      picture,
+      servings,
+      calories,
+      difficulty,
+      time,
+      course,
+      steps,
+    } = req.body;
+    const { rows } = await pool.query(
+      "INSERT INTO Recipes (title, picture, servings, calories, difficulty, time, course, steps) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      [title, picture, servings, calories, difficulty, time, course, steps]
+    );
+    res.status(201).json(rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const putRecipe = async (req, res) => {
+  let { id } = req.params;
+  try {
+    const { steps } = req.body;
+    const { rows } = await pool.query(
+      "UPDATE Recipes SET steps=$1 WHERE id=$2 RETURNING *",
+      [steps, id]
+    );
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// export const deleteRecipe = async (req, res) => {};
